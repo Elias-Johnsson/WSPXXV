@@ -15,21 +15,32 @@ def seed!(db)
 end
 
 def drop_tables(db)
-  db.execute('DROP TABLE IF EXISTS exempel')
+  db.execute('DROP TABLE IF EXISTS users')
+  db.execute('DROP TABLE IF EXISTS posts')
+  db.execute('DROP TABLE IF EXISTS groups')
 end
 
 def create_tables(db)
-  db.execute('CREATE TABLE exempel (
+  db.execute('CREATE TABLE users (
               id INTEGER PRIMARY KEY AUTOINCREMENT,
               name TEXT NOT NULL, 
-              description TEXT,
-              state BOOLEAN)')
+              pwd_digest TEXT NOT NULL)')
+  db.execute('CREATE TABLE posts (
+              id INTEGER PRIMARY KEY AUTOINCREMENT,
+              title TEXT NOT NULL,
+              desc TEXT NOT NULL,
+              group_id INTEGER,
+              duration TEXT NOT NULL)')
+  db.execute('CREATE TABLE groups(
+              id INTEGER PRIMARY KEY AUTOINCREMENT,
+              name TEXT NOT NULL,
+              members_id INTEGER)')
 end
 
 def populate_tables(db)
-  db.execute('INSERT INTO exempel (name, description, state) VALUES ("Köp mjölk", "3 liter mellanmjölk, eko",false)')
-  db.execute('INSERT INTO exempel (name, description, state) VALUES ("Köp julgran", "En rödgran",false)')
-  db.execute('INSERT INTO exempel (name, description, state) VALUES ("Pynta gran", "Glöm inte lamporna i granen och tomten",false)')
+  db.execute('INSERT INTO users (id,name,pwd_digest) VALUES (1,"Admin", "benis")')
+  db.execute('INSERT INTO posts (id, title, desc,group_id,duration) VALUES (1,"BENIS", "En rödgran",1,"20 minuter")')
+  db.execute('INSERT INTO groups (id,name, members_id) VALUES (1,"Pynta gran", 1)')
 end
 
 
