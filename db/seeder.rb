@@ -46,8 +46,10 @@ end
 def populate_tables(db)
   db.execute('INSERT INTO users (id,name,pwd_digest) VALUES (1,"test", "benis")')
   db.execute('INSERT INTO posts (id, title, desc,group_id,user_id) VALUES (1,"BENIS", "En rödgran",1,1)')
+  db.execute('INSERT INTO posts (id, title, desc,group_id,user_id) VALUES (2,"LAstian", "SEEBEE",1,2)')
   db.execute('INSERT INTO groups (id,name) VALUES (1,"Pynta gran")')
   db.execute('INSERT INTO memberships (user_id,group_id) VALUES (1,1)')
+  db.execute('INSERT INTO memberships (user_id,group_id) VALUES (2,1)')
 end
 
 

@@ -1,0 +1,13 @@
+form action="/trava/new" method="get"
+    input type="submit" value="New Post"
+form action="/trava/new_group" method="get"
+    input type="submit" value="Join New Group"
+-@items.each do |item|
+    h2 #{item["title"]}
+    h4 Posted in: #{item["group_name"]}
+    h5 Posted by: #{item["name"]}
+    p #{item["desc"]}
+    form action="/trava/#{item["id"]}/delete" method="post"
+        input type="submit" value="Delete"
+    form action="trava/edit" method="get"
+        input type="submit" value="Edit"
