@@ -9,7 +9,7 @@ get('/trava') do
   slim(:start)
 end
 get('/trava/new') do
-  p session
+   @group_names = db.execute("SELECT id, name FROM groups")
   slim(:new)
 end
 post('/trava/new') do
@@ -17,7 +17,8 @@ post('/trava/new') do
   uid = session[:user_id]
   title = params["new_title"]
   desc = params["new_desc"]
-  group_id = params["group_id"].to_i
+  @group_names = db.execute("SELECT id, name FROM groups")
+  group_name = params["group_id"]
   db.execute("INSERT INTO posts (title,desc,group_id,user_id) VALUES (?,?,?,?)",[title,desc,group_id,uid])
   redirect("/trava/index")
 end
@@ -37,6 +38,11 @@ post('/trava/:id/delete') do
   db.execute("DELETE FROM posts WHERE id=?",id)
   redirect("/trava/index")
 end
+get('/trava/:id/edit') do
+  @group_names = db.execute("SELECT id, name FROM groups")
+  slim(:edit)
+end
+
 post('/login') do
   db = db()
   user = params["username"]

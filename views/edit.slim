@@ -1,0 +1,6 @@
+form action="/trava/:id/update" method="post" 
+    input type="text" name="new_titel" value="New Titel"
+    input type="text" name="new_desc" value="New Description"
+    select name="group_id"
+        -@group_names.each do |group|
+            option value=group["id"] = group["name"] 
