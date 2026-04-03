@@ -1,6 +1,8 @@
-form action="/trava/:id/update" method="post" 
-    input type="text" name="new_titel" value="New Titel"
-    input type="text" name="new_desc" value="New Description"
+h1 Uppdatera ditt träningspass!
+form action="/trava/#{@id}/update" method="post" 
+    input type="text" name="new_titel" placeholder="New Titel"
+    input type="text" name="new_desc" placeholder="New Description"
     select name="group_id"
         -@group_names.each do |group|
-            option value=group["id"] = group["name"] 
+            option value=group["id"] = group["name"]  
+    input type="submit" value="Submit"

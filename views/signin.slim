@@ -1,6 +1,8 @@
 form action="/signin" method="post"
     input type="text" name="username" placeholder="Username"
-    input type="text" name="beginner_g" placeholder="First group"
+    select name="beginner_g"
+        -@group_names.each do |group|
+            option value=group["id"] = group["name"] 
     input type="password" name="password" placeholder="Password"
     input type="password" name="pwd_confirm" placeholder="Confirm Password"
     input type="submit" name="Sign in"

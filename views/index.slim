@@ -1,13 +1,26 @@
 form action="/trava/new" method="get"
     input type="submit" value="New Post"
 form action="/trava/new_group" method="get"
-    input type="submit" value="Join New Group"
+    input type="submit" value="Create New Group"
+form action="/trava/join_new" method="post"
+    h3 Join new group:
+    select name="group_id"
+        -@group_names.each do |group|
+            option value=group["id"] = group["name"] 
+    input type="submit" value="Join"
+    
 -@items.each do |item|
     h2 #{item["title"]}
     h4 Posted in: #{item["group_name"]}
-    h5 Posted by: #{item["name"]}
-    p #{item["desc"]}
-    form action="/trava/#{item["id"]}/delete" method="post"
-        input type="submit" value="Delete"
-    form action="/trava/#{item["id"]}/edit" method="get"
-        input type="submit" value="Edit"
+    h5 Posted by: #{item["user_name"]}
+    p #{item["description"]}
+    - if item["user_id"].to_i == session[:user_id].to_i || admin_in_group?(item["group_id"])
+        form action="/trava/#{item["id"]}/delete" method="post"
+            input type="submit" value="Delete"
+        form action="/trava/#{item["id"]}/edit" method="get"
+            input type="submit" value="Edit"
+
+form action="/trava/logout" method="post"
+    input type="submit" value="Log ut"
+form action="/trava/delete_user" method="post"
+    input type="submit" value="Delete User"
