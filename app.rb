@@ -104,17 +104,41 @@ post('/login') do
   pwd = params["password"]
   result = select_pwd_id(user) 
   if result.empty?
-    session[:error_mes] = "No such user"
-    redirect('/error')
-  end
-  used_id = result.first["id"]
-  pwd_digest = result.first["pwd_digest"]
-  if decrypt(pwd_digest) == pwd
-    session[:user_id] = used_id
-    redirect('/trava/index')
+      session[:error_mes] = "No such user"
+      redirect('/error')
+    end
+  fails = select_fails(user)
+  attempts = fails["failed_attempts"].to_i
+  failed_at = fails["last_failed_at"]
+  login_state = fails["login_state"]
+  if login_state == 1
+    if attempts == 5
+      time_out_user(user)
+    end
+    used_id = result.first["id"]
+    pwd_digest = result.first["pwd_digest"]
+    if decrypt(pwd_digest) == pwd
+      update_fails(0,"",user)
+      time_in_user(user)
+      session[:user_id] = used_id
+      redirect('/trava/index')
+    else
+      session[:error_mes] = "Wrong password"
+      attempts += 1
+      failed_at = Time.now.to_s
+      update_fails(attempts,failed_at,user)
+      redirect('/error')
+    end
   else
-    session[:error_mes] = "Wrong password"
-    redirect('/error')
+    target_Time = Time.parse(failed_at.to_s) + (5*60)
+    if Time.now > target_Time
+      login_state = 1
+      update_fails(4,"",user)
+      time_in_user(user)
+      redirect('/login')
+    end
+    session[:error_mes] = "To many failed attempts, User is timed out till #{target_Time}"
+    redirect("/error")
   end
 end
 get('/signin') do
@@ -124,6 +148,7 @@ end
 post('/signin') do
   user = params["username"]
   pwd = params["password"]
+  if 
   group_index = params["beginner_g"].to_i
   pwd_confirm = params["pwd_confirm"]
   result = select_id(user)

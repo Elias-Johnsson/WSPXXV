@@ -34,7 +34,7 @@ def select_group_id(group_name)
 end
 
 def create_user(user,pwd_digest)
-  db.execute("INSERT INTO users(name,pwd_digest) VALUES(?,?)",[user,pwd_digest])
+  db.execute("INSERT INTO users(name,pwd_digest,failed_attempts,last_failed_at,login_state) VALUES(?,?,?,?,?)",[user,pwd_digest,0,"",1])
 end
 
 def select_post(id)
@@ -45,8 +45,25 @@ def select_userid_id(id)
   return db.execute("SELECT user_id FROM posts WHERE id=?",id).first["user_id"].to_i
 end
 
+def update_fails(attempt,failed_at,username)
+  db.execute("UPDATE users SET failed_attempts=?, last_failed_at=? WHERE name=?",[attempt,failed_at,username])
+end
+
+def select_fails(username)
+  arr = db.execute("SELECT failed_attempts, last_failed_at, login_state FROM users WHERE name=?", username).first
+  return arr
+end
+
 def select_id(user)
   return db.execute("SELECT id FROM users WHERE name=?",user)
+end
+
+def time_in_user(username)
+  db.execute("UPDATE users SET login_state=? WHERE name=?",[1,username])
+end
+
+def time_out_user(username)
+  db.execute("UPDATE users SET login_state=? WHERE name=?",[0,username])
 end
 
 def select_pwd_id(user)
