@@ -148,7 +148,6 @@ end
 post('/signin') do
   user = params["username"]
   pwd = params["password"]
-  if 
   group_index = params["beginner_g"].to_i
   pwd_confirm = params["pwd_confirm"]
   result = select_id(user)
