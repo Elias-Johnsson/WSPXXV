@@ -81,7 +81,7 @@ end
 
 post('/trava/join_new')do
   id = session[:user_id]
-  group_id = params["group_id"]
+  group_id = params["group_id"].to_i
   role = "Standard"
   join_group(id,group_id,role)
   redirect("/trava/index")
@@ -163,7 +163,5 @@ post('/signin') do
       session[:error_mes] = "Passwords do not match"
       redirect('/error')
     end
-  else
-    redirect('/login')
   end
 end

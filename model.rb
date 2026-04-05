@@ -99,7 +99,7 @@ def crypt(pwd)
 end
 
 def select_group_name(id)
-  return db.execute("SELECT name FROM groups WHERE id NOT IN (SELECT group_id FROM memberships WHERE user_id=?)", id)
+  db.execute("SELECT id, name FROM groups WHERE id NOT IN (SELECT group_id FROM memberships WHERE user_id=?)", id)
 end
 
 def admin_in_group?(group_id)

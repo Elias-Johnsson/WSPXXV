@@ -6,7 +6,8 @@ form action="/trava/join_new" method="post"
     h3 Join new group:
     select name="group_id"
         -@group_names.each do |group|
-            option value=group["id"] = group["name"] 
+            option value=group["id"] 
+                = group["name"] 
     input type="submit" value="Join"
     
 -@items.each do |item|

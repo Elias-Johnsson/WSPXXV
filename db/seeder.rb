@@ -50,7 +50,7 @@ end
 def populate_tables(db)
   db.execute('INSERT INTO users (id,name,pwd_digest,failed_attempts,last_failed_at,login_state) VALUES (1,"test", "benis",0,"",1)')
   db.execute('INSERT INTO groups (id,name) VALUES (1,"Pynta gran")')
-  db.execute('INSERT INTO posts (id, title, description,group_id,user_id) VALUES (1,"BENIS", "En rödgran",1,1)')
+  db.execute('INSERT INTO posts (id, title, description,group_id,user_id) VALUES (1,"Pass 1", "En rödgran",1,1)')
   db.execute('INSERT INTO memberships (user_id,group_id,role) VALUES (1,1,"Standard")')
 end
 
