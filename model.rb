@@ -17,7 +17,7 @@ def create_post(title,description,group_id,uid)
 end
 
 def select_posts_users_groups(id)
-  sql = "SELECT DISTINCT posts.*, groups.name, users.name AS group_name FROM posts JOIN memberships ON posts.group_id = memberships.group_id JOIN groups ON posts.group_id = groups.id JOIN users ON posts.user_id = users.id WHERE memberships.user_id = ?"
+  sql = "SELECT DISTINCT posts.*, groups.name AS group_name, users.name AS user_name FROM posts JOIN memberships ON posts.group_id = memberships.group_id JOIN groups ON posts.group_id = groups.id JOIN users ON posts.user_id = users.id WHERE memberships.user_id = ?"
   return db.execute(sql,id)
 end
 
